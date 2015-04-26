@@ -1,6 +1,5 @@
 package be.lode.jukebox.service.webservice;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +13,15 @@ public class WebServiceController {
 
 	@RequestMapping("/allartists")
 	public AllArtists getAllArtists() {
-		WebServiceManager wsm = new WebServiceManager();
-		List<String> allArtists = wsm.getAllArtists();
 		return new AllArtists(counter.incrementAndGet(),
-				allArtists);
+				new WebServiceManager().getAllArtists());
+	}
+
+	@RequestMapping("/alltitles")
+	public AllTitles getAllTitles(
+			@RequestParam(value = "artist", defaultValue = "") String artist) {
+		return new AllTitles(counter.incrementAndGet(),
+				new WebServiceManager().getAllTitles(artist));
 	}
 
 	@RequestMapping("/greeting")

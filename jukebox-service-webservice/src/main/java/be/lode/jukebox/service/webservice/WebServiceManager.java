@@ -23,6 +23,8 @@ public class WebServiceManager {
 	}
 
 	public List<String> getAllTitles(String artist) {
+		if (artist == null || artist.length() == 0)
+			return custRepo.getAllTitles();
 		return custRepo.getAllTitles(artist);
 	}
 }
