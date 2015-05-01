@@ -24,6 +24,14 @@ public class WebServiceController {
 				new WebServiceManager().getAllTitles(artist));
 	}
 
+	@RequestMapping("/alljukeboxes")
+	public AllJukeboxes getAllJukeboxes(
+			@RequestParam(value = "servicename", defaultValue = "") String serviceName,
+			@RequestParam(value = "serviceid", defaultValue = "") String serviceId) {
+		return new AllJukeboxes(counter.incrementAndGet(),
+				new WebServiceManager().getAllJukeboxes(serviceName, serviceId));
+	}
+
 	@RequestMapping("/greeting")
 	public Greeting greeting(
 			@RequestParam(value = "name", defaultValue = "World") String name) {
