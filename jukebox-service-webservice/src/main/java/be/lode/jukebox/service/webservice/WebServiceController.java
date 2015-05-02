@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WebServiceController {
-	private static final String greetingTemplate = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 
 	@RequestMapping("/allartists")
@@ -31,11 +30,12 @@ public class WebServiceController {
 		return new AllJukeboxes(counter.incrementAndGet(),
 				new WebServiceManager().getAllJukeboxes(serviceName, serviceId));
 	}
-
-	@RequestMapping("/greeting")
-	public Greeting greeting(
-			@RequestParam(value = "name", defaultValue = "World") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(
-				greetingTemplate, name));
+	
+	@RequestMapping("/ordersong")
+	public void orderSong(
+			@RequestParam(value = "jukeboxid", defaultValue = "") String jukeboxId,
+			@RequestParam(value = "artist", defaultValue = "") String artist,
+			@RequestParam(value = "title", defaultValue = "") String title) {
+		new WebServiceManager().orderSong(jukeboxId, artist, title);
 	}
 }
