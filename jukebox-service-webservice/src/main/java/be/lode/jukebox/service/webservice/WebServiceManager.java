@@ -10,6 +10,7 @@ import be.lode.general.repository.Repository;
 import be.lode.jukebox.business.model.Account;
 import be.lode.jukebox.business.model.Jukebox;
 import be.lode.jukebox.business.model.Song;
+import be.lode.jukebox.business.model.comparators.StringComparator;
 import be.lode.jukebox.business.repo.AccountRepository;
 import be.lode.jukebox.business.repo.CustomQueryRepository;
 import be.lode.jukebox.business.repo.JukeboxRepository;
@@ -41,10 +42,13 @@ public class WebServiceManager {
 	}
 
 	public List<String> getAllTitles(String artist) {
+		List<String> returnList = null;
 		if (artist == null || artist.length() == 0)
-			return custRepo.getAllTitles();
-		;
-		return custRepo.getAllTitles(artist);
+			returnList =  custRepo.getAllTitles();
+		else 
+			returnList = custRepo.getAllTitles(artist);
+		returnList.sort(new StringComparator());
+		return returnList;
 	}
 
 	public List<JukeboxWSDTO> getAllJukeboxes(String serviceName,
