@@ -16,13 +16,6 @@ public class WebServiceController {
 				new WebServiceManager().getAllArtists());
 	}
 
-	@RequestMapping("/alltitles")
-	public AllTitles getAllTitles(
-			@RequestParam(value = "artist", defaultValue = "") String artist) {
-		return new AllTitles(counter.incrementAndGet(),
-				new WebServiceManager().getAllTitles(artist));
-	}
-
 	@RequestMapping("/alljukeboxes")
 	public AllJukeboxes getAllJukeboxes(
 			@RequestParam(value = "servicename", defaultValue = "") String serviceName,
@@ -30,7 +23,21 @@ public class WebServiceController {
 		return new AllJukeboxes(counter.incrementAndGet(),
 				new WebServiceManager().getAllJukeboxes(serviceName, serviceId));
 	}
-	
+
+	@RequestMapping("/alltitles")
+	public AllTitles getAllTitles(
+			@RequestParam(value = "artist", defaultValue = "") String artist) {
+		return new AllTitles(counter.incrementAndGet(),
+				new WebServiceManager().getAllTitles(artist));
+	}
+
+	@RequestMapping("/paymentinformation")
+	public PaymentInformation getPaymentInformation(
+			@RequestParam(value = "jukeboxid", defaultValue = "") String jukeboxId) {
+		return new PaymentInformation(counter.incrementAndGet(),
+				new WebServiceManager().getPaymentInformation(jukeboxId));
+	}
+
 	@RequestMapping("/ordersong")
 	public void orderSong(
 			@RequestParam(value = "jukeboxid", defaultValue = "") String jukeboxId,

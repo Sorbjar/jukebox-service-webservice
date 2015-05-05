@@ -15,6 +15,7 @@ import be.lode.jukebox.business.repo.AccountRepository;
 import be.lode.jukebox.business.repo.CustomQueryRepository;
 import be.lode.jukebox.business.repo.JukeboxRepository;
 import be.lode.jukebox.business.repo.SongRepository;
+import be.lode.jukebox.service.dto.JukeboxPaymentWSDTO;
 import be.lode.jukebox.service.dto.JukeboxWSDTO;
 import be.lode.jukebox.service.mapper.JukeboxModelMapper;
 
@@ -44,8 +45,8 @@ public class WebServiceManager {
 	public List<String> getAllTitles(String artist) {
 		List<String> returnList = null;
 		if (artist == null || artist.length() == 0)
-			returnList =  custRepo.getAllTitles();
-		else 
+			returnList = custRepo.getAllTitles();
+		else
 			returnList = custRepo.getAllTitles(artist);
 		returnList.sort(new StringComparator());
 		return returnList;
@@ -111,15 +112,24 @@ public class WebServiceManager {
 						&& item.getTitle().equalsIgnoreCase(title))
 					song = item;
 			}
-			
-			if(jukebox != null && song != null)
-			{
+
+			if (jukebox != null && song != null) {
 				jukebox.getMandatoryPlaylist().addSong(song);
 				jukeboxRepo.save(jukebox);
-				//TODO push server
+				// TODO push server
 			}
 
 		}
+	}
+
+	public JukeboxPaymentWSDTO getPaymentInformation(String jukeboxId) {
+		JukeboxPaymentWSDTO returnItem = new JukeboxPaymentWSDTO();
+		List<Jukebox> jbList = jukeboxRepo.getList();
+		for (Jukebox jukebox : jbList) {
+			if (jukebox.getId() == Integer.valueOf(jukeboxId))
+				returnItem = mapper.map(jukebox, JukeboxPaymentWSDTO.class);
+		}
+		return returnItem;
 	}
 
 }
