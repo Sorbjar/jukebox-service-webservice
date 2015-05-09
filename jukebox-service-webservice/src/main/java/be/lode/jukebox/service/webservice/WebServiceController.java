@@ -45,4 +45,12 @@ public class WebServiceController {
 			@RequestParam(value = "title", defaultValue = "") String title) {
 		new WebServiceManager().orderSong(jukeboxId, artist, title);
 	}
+	
+	@RequestMapping("/registercustomer")
+	public void registerCustomer(
+			@RequestParam(value = "jukeboxid", defaultValue = "") String jukeboxId,
+			@RequestParam(value = "servicename", defaultValue = "") String serviceName,
+			@RequestParam(value = "serviceid", defaultValue = "") String serviceId) {
+		new WebServiceManager().registerCustomer(jukeboxId, serviceName, serviceId);
+	}
 }
