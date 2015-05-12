@@ -19,7 +19,7 @@ import be.lode.jukebox.business.repo.SongRepository;
 import be.lode.jukebox.service.dto.JukeboxPaymentWSDTO;
 import be.lode.jukebox.service.dto.JukeboxWSDTO;
 import be.lode.jukebox.service.mapper.JukeboxModelMapper;
-
+//TODO 020 test all 
 public class WebServiceManager {
 
 	private CustomQueryRepository custRepo;
@@ -117,7 +117,7 @@ public class WebServiceManager {
 			if (jukebox != null && song != null) {
 				jukebox.getMandatoryPlaylist().addSong(song);
 				jukeboxRepo.save(jukebox);
-				// TODO push server
+				// 700 TODO push server
 			}
 
 		}
