@@ -19,7 +19,7 @@ import be.lode.jukebox.business.repo.SongRepository;
 import be.lode.jukebox.service.dto.JukeboxPaymentWSDTO;
 import be.lode.jukebox.service.dto.JukeboxWSDTO;
 import be.lode.jukebox.service.mapper.JukeboxModelMapper;
-//TODO 020 test all 
+
 public class WebServiceManager {
 
 	private CustomQueryRepository custRepo;
@@ -137,8 +137,7 @@ public class WebServiceManager {
 			String serviceId) {
 		Account acc = new Account("", "", "", serviceId, serviceName);
 		acc = accountRepo.findEquals(acc);
-		if (acc == null)
-		{
+		if (acc == null) {
 			acc = new Account("", "", "", serviceId, serviceName);
 			acc = accountRepo.save(acc);
 		}
@@ -148,10 +147,8 @@ public class WebServiceManager {
 			if (jukebox.getId() == Integer.valueOf(jukeboxId))
 				jb = jukebox;
 		}
-		if(jb != null)
-		{
-			if(!jb.getAccountRoles().containsKey(acc))
-			{
+		if (jb != null) {
+			if (!jb.getAccountRoles().containsKey(acc)) {
 				jb.getAccountRoles().put(acc, Role.Customer);
 			}
 		}
