@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-//TODO 100 solve facebook login on android
 @RestController
 public class WebServiceController {
 	private final AtomicLong counter = new AtomicLong();
