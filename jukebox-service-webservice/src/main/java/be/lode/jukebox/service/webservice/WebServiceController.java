@@ -47,10 +47,10 @@ public class WebServiceController {
 	}
 	
 	@RequestMapping("/registercustomer")
-	public void registerCustomer(
+	public boolean registerCustomer(
 			@RequestParam(value = "jukeboxid", defaultValue = "") String jukeboxId,
 			@RequestParam(value = "servicename", defaultValue = "") String serviceName,
 			@RequestParam(value = "serviceid", defaultValue = "") String serviceId) {
-		new WebServiceManager().registerCustomer(jukeboxId, serviceName, serviceId);
+		return new WebServiceManager().registerCustomer(jukeboxId, serviceName, serviceId);
 	}
 }

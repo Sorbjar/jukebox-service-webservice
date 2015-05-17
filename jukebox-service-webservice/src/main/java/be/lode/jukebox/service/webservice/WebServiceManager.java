@@ -133,25 +133,32 @@ public class WebServiceManager {
 		return returnItem;
 	}
 
-	public void registerCustomer(String jukeboxId, String serviceName,
+	public boolean registerCustomer(String jukeboxId, String serviceName,
 			String serviceId) {
-		Account acc = new Account("", "", "", serviceId, serviceName);
-		acc = accountRepo.findEquals(acc);
-		if (acc == null) {
-			acc = new Account("", "", "", serviceId, serviceName);
-			acc = accountRepo.save(acc);
-		}
-		Jukebox jb = null;
-		List<Jukebox> jbList = jukeboxRepo.getList();
-		for (Jukebox jukebox : jbList) {
-			if (jukebox.getId() == Integer.valueOf(jukeboxId))
-				jb = jukebox;
-		}
-		if (jb != null) {
-			if (!jb.getAccountRoles().containsKey(acc)) {
-				jb.getAccountRoles().put(acc, Role.Customer);
+		try {
+			Account acc = new Account("", "", "", serviceId, serviceName);
+			acc = accountRepo.findEquals(acc);
+			if (acc == null) {
+				acc = new Account("", "", "", serviceId, serviceName);
+				acc = accountRepo.save(acc);
 			}
+			Jukebox jb = null;
+			List<Jukebox> jbList = jukeboxRepo.getList();
+			for (Jukebox jukebox : jbList) {
+				if (jukebox.getId() == Integer.valueOf(jukeboxId))
+					jb = jukebox;
+			}
+			if (jb != null) {
+				if (!jb.getAccountRoles().containsKey(acc)) {
+					jb.getAccountRoles().put(acc, Role.Customer);
+					jb = jukeboxRepo.save(jb);
+				}
+			}
+			return true;
+		} catch (Exception ex) {
+			return false;
 		}
+
 	}
 
 }
