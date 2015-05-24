@@ -4,7 +4,7 @@
 
 	<groupId>be.lode.jukebox</groupId>
 	<artifactId>jukebox-service-webservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<name>jukebox-service-webservice</name>
 
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>be.lode.jukebox</groupId>
 			<artifactId>jukebox-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		

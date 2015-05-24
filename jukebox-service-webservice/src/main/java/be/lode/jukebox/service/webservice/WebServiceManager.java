@@ -20,15 +20,32 @@ import be.lode.jukebox.service.dto.JukeboxPaymentWSDTO;
 import be.lode.jukebox.service.dto.JukeboxWSDTO;
 import be.lode.jukebox.service.mapper.JukeboxModelMapper;
 
+/**
+ * The Class WebServiceManager.
+ */
 public class WebServiceManager {
 
-	private CustomQueryRepository custRepo;
-	private EntityManagerFactory emf;
-	private Repository<Jukebox> jukeboxRepo;
+	/** The account repo. */
 	private Repository<Account> accountRepo;
+
+	/** The cust repo. */
+	private CustomQueryRepository custRepo;
+
+	/** The emf. */
+	private EntityManagerFactory emf;
+
+	/** The jukebox repo. */
+	private Repository<Jukebox> jukeboxRepo;
+
+	/** The mapper. */
 	private JukeboxModelMapper mapper;
+
+	/** The song repo. */
 	private Repository<Song> songRepo;
 
+	/**
+	 * Instantiates a new web service manager.
+	 */
 	public WebServiceManager() {
 		super();
 		emf = Persistence.createEntityManagerFactory("jukebox-business");
@@ -39,20 +56,24 @@ public class WebServiceManager {
 		mapper = new JukeboxModelMapper();
 	}
 
+	/**
+	 * Gets the all artists.
+	 *
+	 * @return the all artists
+	 */
 	public List<String> getAllArtists() {
 		return custRepo.getAllArtists();
 	}
 
-	public List<String> getAllTitles(String artist) {
-		List<String> returnList = null;
-		if (artist == null || artist.length() == 0)
-			returnList = custRepo.getAllTitles();
-		else
-			returnList = custRepo.getAllTitles(artist);
-		returnList.sort(new StringComparator());
-		return returnList;
-	}
-
+	/**
+	 * Gets the all jukeboxes.
+	 *
+	 * @param serviceName
+	 *            the service name
+	 * @param serviceId
+	 *            the service id
+	 * @return the all jukeboxes
+	 */
 	public List<JukeboxWSDTO> getAllJukeboxes(String serviceName,
 			String serviceId) {
 		List<Jukebox> jbList = new ArrayList<Jukebox>();
@@ -84,15 +105,50 @@ public class WebServiceManager {
 		return mapJukeboxListToJukeboxWSDTOList(jbList);
 	}
 
-	private List<JukeboxWSDTO> mapJukeboxListToJukeboxWSDTOList(
-			List<Jukebox> jbList) {
-		List<JukeboxWSDTO> returnList = new ArrayList<JukeboxWSDTO>();
-		for (Jukebox jukebox : jbList) {
-			returnList.add(mapper.map(jukebox, JukeboxWSDTO.class));
-		}
+	/**
+	 * Gets the all titles.
+	 *
+	 * @param artist
+	 *            the artist
+	 * @return the all titles
+	 */
+	public List<String> getAllTitles(String artist) {
+		List<String> returnList = null;
+		if (artist == null || artist.length() == 0)
+			returnList = custRepo.getAllTitles();
+		else
+			returnList = custRepo.getAllTitles(artist);
+		returnList.sort(new StringComparator());
 		return returnList;
 	}
 
+	/**
+	 * Gets the payment information.
+	 *
+	 * @param jukeboxId
+	 *            the jukebox id
+	 * @return the payment information
+	 */
+	public JukeboxPaymentWSDTO getPaymentInformation(String jukeboxId) {
+		JukeboxPaymentWSDTO returnItem = new JukeboxPaymentWSDTO();
+		List<Jukebox> jbList = jukeboxRepo.getList();
+		for (Jukebox jukebox : jbList) {
+			if (jukebox.getId() == Integer.valueOf(jukeboxId))
+				returnItem = mapper.map(jukebox, JukeboxPaymentWSDTO.class);
+		}
+		return returnItem;
+	}
+
+	/**
+	 * Order song.
+	 *
+	 * @param jukeboxId
+	 *            the jukebox id
+	 * @param artist
+	 *            the artist
+	 * @param title
+	 *            the title
+	 */
 	public void orderSong(String jukeboxId, String artist, String title) {
 
 		if (jukeboxId != null && jukeboxId.length() > 0 && artist != null
@@ -117,22 +173,22 @@ public class WebServiceManager {
 			if (jukebox != null && song != null) {
 				jukebox.getMandatoryPlaylist().addSong(song);
 				jukeboxRepo.save(jukebox);
-				// TODO 700 push server
 			}
 
 		}
 	}
 
-	public JukeboxPaymentWSDTO getPaymentInformation(String jukeboxId) {
-		JukeboxPaymentWSDTO returnItem = new JukeboxPaymentWSDTO();
-		List<Jukebox> jbList = jukeboxRepo.getList();
-		for (Jukebox jukebox : jbList) {
-			if (jukebox.getId() == Integer.valueOf(jukeboxId))
-				returnItem = mapper.map(jukebox, JukeboxPaymentWSDTO.class);
-		}
-		return returnItem;
-	}
-
+	/**
+	 * Register customer.
+	 *
+	 * @param jukeboxId
+	 *            the jukebox id
+	 * @param serviceName
+	 *            the service name
+	 * @param serviceId
+	 *            the service id
+	 * @return true, if successful
+	 */
 	public boolean registerCustomer(String jukeboxId, String serviceName,
 			String serviceId) {
 		try {
@@ -159,6 +215,22 @@ public class WebServiceManager {
 			return false;
 		}
 
+	}
+
+	/**
+	 * Map jukebox list to jukebox wsdto list.
+	 *
+	 * @param jbList
+	 *            the jb list
+	 * @return the list
+	 */
+	private List<JukeboxWSDTO> mapJukeboxListToJukeboxWSDTOList(
+			List<Jukebox> jbList) {
+		List<JukeboxWSDTO> returnList = new ArrayList<JukeboxWSDTO>();
+		for (Jukebox jukebox : jbList) {
+			returnList.add(mapper.map(jukebox, JukeboxWSDTO.class));
+		}
+		return returnList;
 	}
 
 }

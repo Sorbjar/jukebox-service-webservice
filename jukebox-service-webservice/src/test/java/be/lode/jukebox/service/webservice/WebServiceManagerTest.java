@@ -35,17 +35,17 @@ public class WebServiceManagerTest {
 	}
 
 	@Test
-	public void testGetAllTitles() {
-		assertNotNull(new WebServiceManager().getAllTitles("artist"));
-		assertTrue(new WebServiceManager().getAllTitles("artist").size() > 0);
-	}
-
-	@Test
 	public void testGetAllJukeboxes() {
 		assertNotNull(new WebServiceManager().getAllJukeboxes("facebook",
 				"10153294269263586"));
 		assertTrue(new WebServiceManager().getAllJukeboxes("facebook",
 				"10153294269263586").size() > 0);
+	}
+
+	@Test
+	public void testGetAllTitles() {
+		assertNotNull(new WebServiceManager().getAllTitles("artist"));
+		assertTrue(new WebServiceManager().getAllTitles("artist").size() > 0);
 	}
 
 	@Test
